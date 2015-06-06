@@ -13,7 +13,12 @@ stdout() {
 }
 
 scriptname_to_command() {
+    if [[ -z "$2" ]]
+    then
         echo "$1" | sed 's,^\.\/nix-script-,,' | sed 's,\.sh$,,'
+    else
+        echo "$1" | sed "s,^\.\/${2}-,," | sed 's,\.sh$,,'
+    fi
 }
 
 help_synopsis() {
