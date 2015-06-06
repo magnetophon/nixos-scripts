@@ -51,3 +51,8 @@ current_user_generation() {
     grep_generation "nix-env --list-generations"
 }
 
+# Argument 1: Caller script name, format: "nix-script"
+caller_util_all_commands() {
+    find $(dirname ${BASH_SOURCE[0]}) -type f -name "${1}-*.sh"
+}
+
