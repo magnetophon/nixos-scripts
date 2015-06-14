@@ -90,13 +90,19 @@ REBUILD_EXIT=$?
 
 if [[ $REBUILD_EXIT -eq 0 ]]
 then
+    stdout 'Trying: sudo nix-env -p /nix/var/nix/profiles/system' \
+           '--list-generations | grep current | cut -d " " -f 2'
     LASTGEN=$(sudo nix-env -p /nix/var/nix/profiles/system --list-generations |\
         grep current | cut -d " " -f 2)
     sudo -k
 
+    stdout "sudo -k succeeded"
+    stdout "Last generation was: $LASTGEN"
+
     if [[ -z "$TAG_NAME" ]]
     then
         TAG_NAME="nixos-$LASTGEN-$COMMAND"
+        stdout "Tag name will be default generated : '$TAG_NAME'"
     fi
 
     explain git --git-dir="$WD/.git" --work-tree="$WD" $GIT_COMMAND "'$TAG_NAME'"
